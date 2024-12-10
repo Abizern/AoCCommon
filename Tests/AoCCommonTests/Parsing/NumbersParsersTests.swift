@@ -28,10 +28,10 @@ struct NumberPairTests {
   @Test("Multiple Lines")
   func multipleLines() throws {
     let str =
-    """
-    1,2
-    3,4
-    """
+      """
+      1,2
+      3,4
+      """
     let parser = Many {
       NumberPair()
     } separator: {
@@ -51,10 +51,10 @@ struct NumberPairsTests {
   @Test("Default separates on commas")
   func defaultSeparator() throws {
     let str =
-    """
-    1,2
-    3,4
-    """
+      """
+      1,2
+      3,4
+      """
     let parsed = try NumberPairs().parse(str)
     #expect(parsed[0] == (1, 2))
     #expect(parsed[1] == (3, 4))
@@ -92,10 +92,10 @@ struct NumberrLinesTests {
   @Test("Default separates on commas")
   func defaultSeparator() throws {
     let str =
-    """
-    1,2,3
-    4,5,6
-    """
+      """
+      1,2,3
+      4,5,6
+      """
     let parsed = try NumberLines().parse(str)
     #expect(parsed[0] == [1, 2, 3])
     #expect(parsed[1] == [4, 5, 6])

@@ -1,10 +1,24 @@
 import Parsing
 
-/// When the input is multiple lines, each a string, and each Character being an Value in the grid.
-//public struct GridParser<V>: Parser {
-//  let transform: (Character) -> V
-//
-//  var body: some Parser<Substring, Grid<V>> {
-//
-//  }
-//}
+// When the input is multiple lines, each a string, and each Character being an Value in the grid.
+public struct SingleDigitGridParser: Parser {
+  public init() {}
+
+  public var body: some Parser<Substring, Grid<Int>> {
+    Many {
+      SingleDigitLineParser()
+    } separator: {
+      "\n"
+    } terminator: {
+      End()
+    }.map { Grid(rows: $0) }
+  }
+}
+
+private struct SingleDigitLineParser: Parser {
+  var body: some Parser<Substring, [Int]> {
+    Many {
+      Digits(1)
+    }
+  }
+}

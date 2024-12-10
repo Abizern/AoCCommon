@@ -1,5 +1,7 @@
 import Foundation
 
+// TODO: Turn this into a Monad
+
 /// A simple 2D Grid structure of Elements
 ///
 /// Refences are in the order of Row then Column (so y, then x)
@@ -15,7 +17,7 @@ public struct Grid<Element: Comparable>: Sendable where Element: Sendable {
 
   public init(rows: [[Element]]) {
     storage = rows
-    let rowLength = rows.count
+    let rowLength = rows[0].count
     guard rowLength > 0
     else {
       preconditionFailure("A grid cannot be empty!")
@@ -115,6 +117,21 @@ extension Grid {
         self[row, col]
       }
     }
+  }
+}
+
+extension Grid {
+  /// Return a set of Cells, where the value at that cell satisfies the predicate
+  public func filter(_ predicate: (Element) throws -> Bool) rethrows -> Set<Cell> {
+    var accumulator: Set<Cell> = []
+    for row in 0 ..< height {
+      for col in 0 ..< width {
+        if let value = self[row, col], try predicate(value) {
+          accumulator.insert(Cell(row, col))
+        }
+      }
+    }
+    return accumulator
   }
 }
 

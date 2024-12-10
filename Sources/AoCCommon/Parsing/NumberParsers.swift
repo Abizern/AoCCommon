@@ -66,7 +66,7 @@ public struct NumberLine<V>: Parser {
   }
 
   public var body: some Parser<Substring, [V]> {
-    Parse{
+    Parse {
       Many {
         Int.parser().map(transform)
       } separator: {
@@ -80,11 +80,11 @@ public struct NumberLine<V>: Parser {
 public struct NumberLines<V>: Parser {
   let separator: String
 
-  let transform: ((Int)) -> V
-  
+  let transform: (Int) -> V
+
   public init(
     separator: String = ",",
-    transform: @escaping ((Int)) -> V = { $0 }
+    transform: @escaping (Int) -> V = { $0 }
   ) {
     self.separator = separator
     self.transform = transform
