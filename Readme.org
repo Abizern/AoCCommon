@@ -2,6 +2,8 @@
 
 Common utility code for Advent of Code solutions in Swift.
 
+Note: This is a work in progress and not-fully documented. Many things are liable to change and to break.
+
 ** Installation
 To use the `Algorithms` library in a SwiftPM project, add the following line to the dependencies in your `Package.swift` file:
 
