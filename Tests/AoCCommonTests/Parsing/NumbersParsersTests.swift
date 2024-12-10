@@ -110,6 +110,13 @@ struct SingleDightLineParserTests {
     let parsed = try SingleDigitLineParser().parse(str)
     #expect(parsed == [1, 2, 3])
   }
+
+  @Test("Transform")
+  func transform() throws {
+    let str = "123"
+    let parser = SingleDigitLineParser() { $0 * 2 }
+    #expect(try parser.parse(str) == [2, 4, 6])
+  }
 }
 
 @Suite("SingleDigitLinesParser Test")
@@ -126,5 +133,18 @@ struct SingleDightLinesParserTests {
     #expect(parsed[0] == [1, 2, 3])
     #expect(parsed[1] == [4, 5, 6])
     #expect(parsed[2] == [7, 8, 9])
+  }
+
+  @Test("Transform")
+  func transform() throws {
+    let str =
+      """
+      123
+      456
+      """
+    let parser = SingleDigitLinesParser() { $0 * 2 }
+    let parsed = try parser.parse(str)
+    #expect(parsed[0] == [2, 4, 6])
+    #expect(parsed[1] == [8, 10, 12])
   }
 }

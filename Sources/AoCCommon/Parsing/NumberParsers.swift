@@ -100,23 +100,31 @@ public struct NumberLines<V>: Parser {
 }
 
 /// A parse for a line of single digits without spaces in between them
-public struct SingleDigitLineParser: Parser {
-  public init() {}
+public struct SingleDigitLineParser<V>: Parser {
+  let transform: (Int) -> V
 
-  public var body: some Parser<Substring, [Int]> {
+  public init(transform: @escaping (Int) -> V = { $0 }) {
+    self.transform = transform
+  }
+
+  public var body: some Parser<Substring, [V]> {
     Many {
-      Digits(1)
+      Digits(1).map(transform)
     }
   }
 }
 
 /// A parser for a grid of single dights in a a block without spaces.
-public struct SingleDigitLinesParser: Parser {
-  public init() {}
-  
-  public var body: some Parser<Substring, [[Int]]> {
+public struct SingleDigitLinesParser<V>: Parser {
+  let transform: (Int) -> V
+
+  public init(transform: @escaping (Int) -> V = { $0 }) {
+    self.transform = transform
+  }
+
+  public var body: some Parser<Substring, [[V]]> {
     Many {
-      SingleDigitLineParser()
+      SingleDigitLineParser(transform: transform)
     } separator: {
       "\n"
     }
