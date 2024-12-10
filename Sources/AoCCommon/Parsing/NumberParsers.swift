@@ -98,3 +98,27 @@ public struct NumberLines<V>: Parser {
     }
   }
 }
+
+/// A parse for a line of single digits without spaces in between them
+public struct SingleDigitLineParser: Parser {
+  public init() {}
+
+  public var body: some Parser<Substring, [Int]> {
+    Many {
+      Digits(1)
+    }
+  }
+}
+
+/// A parser for a grid of single dights in a a block without spaces.
+public struct SingleDigitLinesParser: Parser {
+  public init() {}
+  
+  public var body: some Parser<Substring, [[Int]]> {
+    Many {
+      SingleDigitLineParser()
+    } separator: {
+      "\n"
+    }
+  }
+}

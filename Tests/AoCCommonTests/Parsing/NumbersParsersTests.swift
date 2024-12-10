@@ -101,3 +101,30 @@ struct NumberrLinesTests {
     #expect(parsed[1] == [4, 5, 6])
   }
 }
+
+@Suite("SingleDigitLineParser Test")
+struct SingleDightLineParserTests {
+  @Test("Parse a single line")
+  func parseSingleLine() throws {
+    let str = "123"
+    let parsed = try SingleDigitLineParser().parse(str)
+    #expect(parsed == [1, 2, 3])
+  }
+}
+
+@Suite("SingleDigitLinesParser Test")
+struct SingleDightLinesParserTests {
+  @Test("Parse a single line")
+  func parseSingleLine() throws {
+    let str =
+      """
+      123
+      456
+      789
+      """
+    let parsed = try SingleDigitLinesParser().parse(str)
+    #expect(parsed[0] == [1, 2, 3])
+    #expect(parsed[1] == [4, 5, 6])
+    #expect(parsed[2] == [7, 8, 9])
+  }
+}

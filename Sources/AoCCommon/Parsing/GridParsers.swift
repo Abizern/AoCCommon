@@ -14,11 +14,3 @@ public struct SingleDigitGridParser: Parser {
     }.map { Grid(rows: $0) }
   }
 }
-
-private struct SingleDigitLineParser: Parser {
-  var body: some Parser<Substring, [Int]> {
-    Many {
-      Digits(1)
-    }
-  }
-}
