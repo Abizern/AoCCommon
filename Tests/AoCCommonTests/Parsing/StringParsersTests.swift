@@ -9,7 +9,7 @@ struct StringParsingTests {
     try #expect(str.lines() == ["abcd123--", "wxyz"])
   }
 
-@Test("String.characterLines()")
+  @Test("String.characterLines()")
   func characterLines() throws {
     let str =
       """
@@ -20,5 +20,4 @@ struct StringParsingTests {
     let lines = str.characterLines()
     #expect(lines == [[Character("A"), Character("B")], [Character("C"), Character("D")]])
   }
-
 }
