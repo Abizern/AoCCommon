@@ -72,6 +72,13 @@ struct GridAccessorsTests {
     #expect(Set(grid.neighbours(Cell(1, 1))) == allNeighbours)
     #expect(Set(grid.neighbours(Cell(1, 1), includeDiagonals: false)) == orthogonalNeighbours)
   }
+
+  @Test("Find element")
+  func findElement() {
+    let grid = Grid(rows: [[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    #expect(grid.firstCell(for: 10) == nil)
+    #expect(grid.firstCell(for: 2) == Cell(0, 1))
+  }
 }
 
 @Suite("Lazy sequences")

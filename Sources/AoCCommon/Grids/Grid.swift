@@ -155,7 +155,7 @@ extension Grid {
 
 extension Grid {
   /// Returns the first Cell which matches the element
-  func firstCell(for element: Element) -> Cell? {
+  public func firstCell(for element: Element) -> Cell? {
     for (r, row) in rows.enumerated() {
       for (c, value) in row.enumerated() {
         if value == element {
