@@ -82,7 +82,7 @@ struct GridAccessorsTests {
 }
 
 @Suite("Lazy sequences")
-struct LazyAccessorTests {
+struct GridLazyAccessorTests {
   let grid = Grid(rows: [[1, 2, 3], [4, 5, 6], [7, 8, 9]])
 
   @Test("Lazy rows")
