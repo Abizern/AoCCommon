@@ -4,7 +4,7 @@ import Testing
 @Suite("Grid initialiser")
 struct GridInitialiserTests {
   @Test("Can initialise a grid with an array of arrays")
-  func testInitialiser() {
+  func initialiser() {
     let rows = [[1, 2], [3, 4]]
     let grid = Grid(rows: rows)
     #expect(grid.width == 2)
@@ -15,7 +15,7 @@ struct GridInitialiserTests {
 @Suite("Grid accessors")
 struct GridAccessorsTests {
   @Test("Subscripts")
-  func testSubscripts() {
+  func subscripts() {
     let grid = Grid(rows: [[1, 2], [3, 4]])
     #expect(grid[0] == [1, 2])
     #expect(grid[1] == [3, 4])
@@ -23,7 +23,7 @@ struct GridAccessorsTests {
   }
 
   @Test("Positional validations")
-  func testPositionalValidations() {
+  func positionalValidations() {
     let grid = Grid(rows: [[1, 2], [3, 4]])
     #expect(grid.isValidRow(0))
     #expect(grid.isValidRow(1))
@@ -38,7 +38,7 @@ struct GridAccessorsTests {
   }
 
   @Test("Positional validations using cells")
-  func testPositionalValidationsUsingCells() {
+  func positionalValidationsUsingCells() {
     let grid = Grid(rows: [[1, 2], [3, 4]])
     let validPositions = [(0, 0), (1, 1)].map(Cell.init)
     let invalidPositions = [(2, 0), (0, 2)].map(Cell.init)
@@ -47,7 +47,7 @@ struct GridAccessorsTests {
   }
 
   @Test("Element accessors")
-  func testElementAccessors() {
+  func elementAccessors() {
     let grid = Grid(rows: [[1, 2], [3, 4]])
     #expect(grid.element(Cell(0, 0)) == 1)
     #expect(grid.element(Cell(1, 1)) == 4)
@@ -56,7 +56,7 @@ struct GridAccessorsTests {
   }
 
   @Test("Neigbours of a Cell as a Set")
-  func testNeigboursOfACellAsASet() {
+  func neigboursOfACellAsASet() {
     let grid = Grid(rows: [[1, 2, 3], [4, 5, 6], [7, 8, 9]])
     let allNeighbours = Set([(0, 0), (0, 1), (0, 2), (1, 0), (1, 2), (2, 0), (2, 1), (2, 2)].map(Cell.init))
     let orthogonalNeighbours = Set([(0, 1), (2, 1), (1, 0), (1, 2)].map(Cell.init))
@@ -65,7 +65,7 @@ struct GridAccessorsTests {
   }
 
   @Test("Neigbours of a cell as an Array")
-  func testNeigboursOfACellAsAnArray() {
+  func neigboursOfACellAsAnArray() {
     let grid = Grid(rows: [[1, 2, 3], [4, 5, 6], [7, 8, 9]])
     let allNeighbours = Set([(0, 0), (0, 1), (0, 2), (1, 0), (1, 2), (2, 0), (2, 1), (2, 2)].map(Cell.init))
     let orthogonalNeighbours = Set([(0, 1), (2, 1), (1, 0), (1, 2)].map(Cell.init))
@@ -86,14 +86,14 @@ struct GridLazyAccessorTests {
   let grid = Grid(rows: [[1, 2, 3], [4, 5, 6], [7, 8, 9]])
 
   @Test("Lazy rows")
-  func testLazyRows() {
+  func lazyRows() {
     for (r, row) in grid.rows.enumerated() {
       #expect(row == grid[r])
     }
   }
 
   @Test("Lazy columns")
-  func testLazyColumns() {
+  func lazyColumns() {
     var newArray = [[Int]]()
     for column in grid.cols {
       newArray.append(column)

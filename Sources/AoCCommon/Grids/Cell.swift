@@ -25,6 +25,6 @@ public struct Cell: Hashable, CustomStringConvertible, Sendable {
 extension Cell {
   /// The manhattan distance to the given point
   public func manhattanDistance(_ to: Cell) -> Int {
-    abs(self.row - to.row) + abs(self.col - to.col)
+    abs(row - to.row) + abs(col - to.col)
   }
 }

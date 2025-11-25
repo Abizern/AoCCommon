@@ -1,4 +1,4 @@
-// swift-tools-version: 6.0
+// swift-tools-version: 6.2
 
 import PackageDescription
 
@@ -12,23 +12,22 @@ let package = Package(
   products: [
     .library(
       name: "AoCCommon",
-      targets: ["AoCCommon"]
+      targets: ["AoCCommon"],
     ),
   ],
   dependencies: [
     .package(
-      url: "https://github.com/pointfreeco/swift-parsing",
-      from: "0.13.0"
+      url: "https://github.com/pointfreeco/swift-parsing", "0.14.1" ..< "0.15.0",
     ),
   ],
   targets: [
     .target(
       name: "AoCCommon",
-      dependencies: dependencies
+      dependencies: dependencies,
     ),
     .testTarget(
       name: "AoCCommonTests",
-      dependencies: ["AoCCommon"]
+      dependencies: ["AoCCommon"],
     ),
-  ]
+  ],
 )

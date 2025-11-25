@@ -4,7 +4,7 @@ import Testing
 @Suite("Cell Tests")
 struct CellTests {
   @Test("Initialisers")
-  func testInitialisers() {
+  func initialisers() {
     let cell = Cell(1, 2)
     #expect(cell.row == 1)
     #expect(cell.col == 2)
@@ -17,6 +17,4 @@ struct CellTests {
     #expect(from.manhattanDistance(to) == 4)
     #expect(from.manhattanDistance(from) == 0)
   }
-
 }
-

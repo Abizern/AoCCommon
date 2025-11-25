@@ -16,7 +16,7 @@ struct ExtendedEuclid {
       (13, 7, 1), // Spacial Cases
       (1, 77, 1),
       (81, 9, 9),
-    ]
+    ],
   )
   func extendedEuclidTests(inputs: (Int, Int, Int)) {
     let (a, b, expected) = inputs

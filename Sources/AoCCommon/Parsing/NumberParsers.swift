@@ -12,7 +12,7 @@ public struct NumberPair<V>: Parser {
 
   public init(
     separator: String = ",",
-    transform: @escaping ((Int, Int)) -> V = { $0 }
+    transform: @escaping ((Int, Int)) -> V = { $0 },
   ) {
     self.separator = separator
     self.transform = transform
@@ -36,7 +36,7 @@ public struct NumberPairs<V>: Parser {
 
   public init(
     separator: String = ",",
-    transform: @escaping ((Int, Int)) -> V = { $0 }
+    transform: @escaping ((Int, Int)) -> V = { $0 },
   ) {
     self.separator = separator
     self.transform = transform
@@ -59,7 +59,7 @@ public struct NumberLine<V>: Parser {
 
   public init(
     separator: String = ",",
-    transform: @escaping (Int) -> V = { $0 }
+    transform: @escaping (Int) -> V = { $0 },
   ) {
     self.separator = separator
     self.transform = transform
@@ -84,7 +84,7 @@ public struct NumberLines<V>: Parser {
 
   public init(
     separator: String = ",",
-    transform: @escaping (Int) -> V = { $0 }
+    transform: @escaping (Int) -> V = { $0 },
   ) {
     self.separator = separator
     self.transform = transform
