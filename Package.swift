@@ -19,6 +19,9 @@ let package = Package(
     .package(
       url: "https://github.com/pointfreeco/swift-parsing", "0.14.1" ..< "0.15.0",
     ),
+    .package(
+      url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0"
+    ),
   ],
   targets: [
     .target(
