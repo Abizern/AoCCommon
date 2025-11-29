@@ -8,7 +8,9 @@ Mostly common algorithms and parsing
 
 ## Topics
 
-### Parsing
+Why is this text not showing up at all?
 
-- ``Parsing/NumberParsers``
-- ``NumberPairs``
+### Parsing
+Does anything show up here?
+- ``NumberPairs``
+- ``SingleDigitGridParser``

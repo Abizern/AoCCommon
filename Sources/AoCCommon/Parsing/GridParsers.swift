@@ -1,6 +1,6 @@
 import Parsing
 
-// When the input is multiple lines, each a string, and each Character being an Value in the grid.
+/// When the input is multiple lines, each a string, and each Character being an Value in the grid.
 public struct SingleDigitGridParser: Parser {
   public init() {}
 
