@@ -2,15 +2,14 @@
 
 A utility library to help with solving Advent of Code challenges.
 
-## Overview
-
 Mostly common algorithms and parsing
+
+- 2D grids and coordinate types
+- Parsing helpers for common input formats
+- Number-theoretic utilities
 
 ## Topics
 
-Why is this text not showing up at all?
-
-### Parsing
-Does anything show up here?
-- ``NumberPairs``
-- ``SingleDigitGridParser``
+- <doc:Parsing>
+- <doc:Grids>
+- <doc:Maths>

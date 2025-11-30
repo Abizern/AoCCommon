@@ -17,7 +17,6 @@ struct StringParsingTests {
       CD
       """
 
-    let lines = str.characterLines()
-    #expect(lines == [[Character("A"), Character("B")], [Character("C"), Character("D")]])
+    try #expect(str.characterLines() == [[Character("A"), Character("B")], [Character("C"), Character("D")]])
   }
 }

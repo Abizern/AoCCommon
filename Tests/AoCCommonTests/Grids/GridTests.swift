@@ -14,12 +14,19 @@ struct GridInitialiserTests {
 
 @Suite("Grid accessors")
 struct GridAccessorsTests {
+  let grid = Grid(rows: [[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+
   @Test("Subscripts")
   func subscripts() {
     let grid = Grid(rows: [[1, 2], [3, 4]])
     #expect(grid[0] == [1, 2])
     #expect(grid[1] == [3, 4])
     #expect(grid[1, 1] == 4)
+    #expect(grid[Cell(0, 0)] == 1)
+    #expect(grid[-1] == nil)
+    #expect(grid[2] == nil)
+    #expect(grid[0, 2] == nil)
+    #expect(grid[Cell(2, 2)] == nil)
   }
 
   @Test("Positional validations")
@@ -55,29 +62,21 @@ struct GridAccessorsTests {
     #expect(grid.element(Cell(0, 2)) == nil)
   }
 
-  @Test("Neigbours of a Cell as a Set")
-  func neigboursOfACellAsASet() {
-    let grid = Grid(rows: [[1, 2, 3], [4, 5, 6], [7, 8, 9]])
-    let allNeighbours = Set([(0, 0), (0, 1), (0, 2), (1, 0), (1, 2), (2, 0), (2, 1), (2, 2)].map(Cell.init))
-    let orthogonalNeighbours = Set([(0, 1), (2, 1), (1, 0), (1, 2)].map(Cell.init))
-    #expect(grid.neighboursSet(Cell(1, 1)) == allNeighbours)
-    #expect(grid.neighboursSet(Cell(1, 1), includeDiagonals: false) == orthogonalNeighbours)
-  }
-
-  @Test("Neigbours of a cell as an Array")
-  func neigboursOfACellAsAnArray() {
-    let grid = Grid(rows: [[1, 2, 3], [4, 5, 6], [7, 8, 9]])
-    let allNeighbours = Set([(0, 0), (0, 1), (0, 2), (1, 0), (1, 2), (2, 0), (2, 1), (2, 2)].map(Cell.init))
-    let orthogonalNeighbours = Set([(0, 1), (2, 1), (1, 0), (1, 2)].map(Cell.init))
-    #expect(Set(grid.neighbours(Cell(1, 1))) == allNeighbours)
-    #expect(Set(grid.neighbours(Cell(1, 1), includeDiagonals: false)) == orthogonalNeighbours)
+  @Test("Neigbours of a Cell")
+  func neigboursOfACell() {
+    let cell = Cell(1, 1)
+    let allNeighbours = cell.neighbours()
+    let orthogonalNeighbours = cell.orthogonalNeighbours()
+    let diagonalNeighgbours = cell.diagonalNeighbours()
+    #expect(grid.neighbours(cell) == allNeighbours)
+    #expect(grid.orthogonalNeighbours(cell) == orthogonalNeighbours)
+    #expect(grid.diagonalNeighbours(cell) == diagonalNeighgbours)
   }
 
   @Test("Find element")
   func findElement() {
-    let grid = Grid(rows: [[1, 2, 3], [4, 5, 6], [7, 8, 9]])
-    #expect(grid.firstCell(for: 10) == nil)
     #expect(grid.firstCell(for: 2) == Cell(0, 1))
+    #expect(grid.firstCell(for: 10) == nil)
   }
 }
 
@@ -100,5 +99,24 @@ struct GridLazyAccessorTests {
     }
 
     #expect(newArray == [[1, 4, 7], [2, 5, 8], [3, 6, 9]])
+  }
+}
+
+@Suite("Grid filter")
+struct GridFilterTests {
+  let grid = Grid(rows: [[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+
+  @Test("Filter even numbers returns correct cells")
+  func filterEvens() {
+    let cells = grid.filter { $0 % 2 == 0 }
+    let expected: Set<Cell> = [Cell(0, 1), Cell(1, 0), Cell(1, 2), Cell(2, 1)]
+    #expect(cells == expected)
+    #expect(cells.count == expected.count)
+  }
+
+  @Test("Filter with no matches returns empty")
+  func filterNoMatches() {
+    let cells = grid.filter { _ in false }
+    #expect(cells.isEmpty)
   }
 }

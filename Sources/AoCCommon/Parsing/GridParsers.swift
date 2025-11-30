@@ -1,6 +1,26 @@
 import Parsing
 
-/// When the input is multiple lines, each a string, and each Character being an Value in the grid.
+/// A parser for a grid of single decimal digits into a `Grid<Int>`.
+///
+/// The input is treated as multiple lines of contiguous digits (`0`–`9`)
+/// separated by newlines. Each digit is parsed as an `Int`, and the resulting
+/// `[[Int]]` is wrapped into a `Grid<Int>`.
+///
+/// For example, the input:
+///
+/// ```text
+/// 123
+/// 456
+/// 789
+/// ```
+///
+/// parses as a 3×3 `Grid` with rows:
+///
+/// ```swift
+/// [[1, 2, 3],
+///  [4, 5, 6],
+///  [7, 8, 9]]
+/// ```
 public struct SingleDigitGridParser: Parser {
   public init() {}
 

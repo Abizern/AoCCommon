@@ -1,7 +1,18 @@
 import Foundation
 
-/// Extended Euclidean Algorithm
-/// Returns (g, x, y) such that a*x + b*y = g = gcd(a, b), with g >= 0
+/// Extended Euclidean algorithm for integers.
+///
+/// Computes `g = gcd(a, b)` and integers `x` and `y` such that:
+///
+///   a * x + b * y = g
+///
+/// with `g` guaranteed to be non-negative.
+///
+/// - Parameters:
+///   - a: First integer.
+///   - b: Second integer.
+/// - Returns: A tuple `(g, x, y)` where `g` is `gcd(a, b)` and
+///   `a * x + b * y == g`.
 public func extendedEuclid(_ a: Int, _ b: Int) -> (g: Int, x: Int, y: Int) {
   if b == 0 {
     // Ensure g is always non-negative

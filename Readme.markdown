@@ -1,26 +1,22 @@
-* AoCCommon
+# AoCCommon
 
 Common utility code for Advent of Code solutions in Swift.
 
-Note: This is a work in progress and not-fully documented. Many things are liable to change and to break.
+Mostly this is just Parsing with some grid and number theory helpers
 
-** Installation
+## Installation
 To use the `AoCCommon` library in a SwiftPM project, add the following line to the dependencies in your `Package.swift` file:
 
-#+begin_src swift
+```swift
 .package(url: "https://github.com/Abizern/AoCCommon", "0.1.0" ..< "0.2.0"),
-#+end_src
+```
 
 This will define a dependency up to the next minor version.
 
-Include ="AoCCommon"= as a dependency for your target:
+Include `AoCCommon` as a dependency for your target:
 
-#+begin_src swift
+```swift
 .target(name: "<target>", dependencies: [
     .product(name: "AoCCommon", package: "AoCCommon"),
 ]),
-#+end_src
-
-** ToDo
-
-As mentioned, documentation is limited and I really should try improve them.
+```

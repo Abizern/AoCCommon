@@ -1,17 +1,5 @@
 import Parsing
 
-/// Utility parsers for common Advent of Code–style numeric inputs.
-///
-/// All parsers in this file are built on top of the `Parsing` package and are
-/// generic over the output type so that the raw `Int` values can be mapped
-/// into domain-specific types.
-///
-/// The general pattern is:
-/// - parse one or more `Int` values from a line or block of text
-/// - optionally transform the parsed values using a caller-supplied closure
-/// - return the transformed values as `V`, `[V]`, or `[[V]]`
-
-
 /// A parser for a pair of numbers from a string.
 ///
 /// The parser expects two decimal integers separated by a fixed delimiter
@@ -19,8 +7,7 @@ import Parsing
 ///
 /// For example, given the input `"3,7"`:
 /// - with the default transform, this parses as `(3, 7)`
-/// - with a custom transform, you can map it to any `V`, e.g. a tuple, struct,
-///   or other domain type.
+/// - with a custom transform, you can map it to any `V`,
 ///
 /// The generic parameter `V` is the output type produced by the `transform`
 /// closure.
@@ -68,9 +55,6 @@ public struct NumberPair<V>: Parser {
 /// ```
 ///
 /// into an array of `V` values, one for each line.
-///
-/// The generic parameter `V` is the output type produced by the `transform`
-/// closure applied to each pair.
 public struct NumberPairs<V>: Parser {
   /// The separator expected between the numbers on each line.
   let separator: String
@@ -181,7 +165,7 @@ public struct NumberLines<V>: Parser {
   ///   - separator: The literal string separating numbers on each line.
   ///                Defaults to `","`.
   ///   - transform: A closure that converts each parsed `Int` into `V`.
-  ///                By default this is the identity and `V == Int`.
+  ///                By default this is the identity.
   public init(
     separator: String = ",",
     transform: @escaping (Int) -> V = { $0 }
@@ -202,8 +186,8 @@ public struct NumberLines<V>: Parser {
 /// A parser for a line of single digits with no separators.
 ///
 /// This expects a contiguous sequence of decimal digits (`0`–`9`) on a single
-/// line, with no spaces or delimiters. Each digit is parsed as an `Int` and
-/// then mapped to `V` using the `transform` closure.
+/// line, with no spaces or delimiters. Each character is parsed as a single
+/// digit `Int` and then mapped to `V` using the `transform` closure.
 ///
 /// For example, the input:
 ///
