@@ -148,3 +148,23 @@ struct SingleDightLinesParserTests {
     #expect(parsed[1] == [8, 10, 12])
   }
 }
+
+@Suite("Parsing Number ranges")
+struct NumberRangeParserTests {
+  @Test("Parse a single range")
+  func parseRange() throws {
+    let str = "124-126"
+    let parsed = try NumberRange().parse(str)
+    #expect(parsed == (124, 126))
+  }
+
+  @Test("Parse a line of number ranges")
+  func parseRanges() throws {
+    let str = "124-126,82-99,1111-536854"
+    let parsed = try NumberRanges().parse(str)
+    #expect(parsed.count == 3)
+    #expect(parsed[0] == (124, 126))
+    #expect(parsed[1] == (82, 99))
+    #expect(parsed[2] == (1111, 536_854))
+  }
+}

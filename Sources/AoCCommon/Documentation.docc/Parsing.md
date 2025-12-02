@@ -33,4 +33,5 @@ Can I put text in here
 ### String extensions
 - ``Swift/String/lines()``
 - ``Swift/String/characterLines()``
+- ``Swift/String/numberRanges()``
 

@@ -13,9 +13,9 @@ public extension String {
   /// ```
   ///
   /// the parser returns
-  ///```swift
-  ///["abc", "def"]
-  ///```
+  /// ```swift
+  /// ["abc", "def"]
+  /// ```
   ///
   /// - Returns: An array of `String`, one for each line in the input.
   /// - Throws: A parsing error if the input does not represent a sequence of
@@ -50,5 +50,19 @@ public extension String {
   ///   separated character lines.
   func characterLines() throws -> [[Character]] {
     try CharacterLinesParser().parse(self)
+  }
+
+  /// Parse a single line of number ranges into an array of tuples
+  ///
+  /// A common input pattern is to have a list of number ranges on a single line.
+  /// This can be parsed into an array of tuples. The numbers are separated by a "-"
+  /// and each range is separated by a "," with no spaces in between.
+  ///
+  /// For example, given the input:
+  /// ```swift
+  /// try "1-2,10-16".numberRanges() // -> [(1, 2), (10, 16)]
+  /// ```
+  func numberRanges() throws -> [(Int, Int)] {
+    try NumberRanges().parse(self)
   }
 }

@@ -1,3 +1,4 @@
 --header strip
 --indent 2
 --import-grouping testable-last
+--patternlet inline

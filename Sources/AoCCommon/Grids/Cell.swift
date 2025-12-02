@@ -139,13 +139,14 @@ public extension Cell {
   }
 }
 
+// Offsets
 public extension Cell {
   /// A directional offset in a 2D grid, relative to a cell.
   ///
   /// Offsets can be applied to a `Cell` to obtain neighbours and other
   /// translated positions. The cases cover the four orthogonal directions
   /// and the four diagonals.
-  enum Offset: CaseIterable {
+  enum Offset: CaseIterable, Sendable {
     /// One row up (decreasing `row` by 1).
     case up
     /// One column to the right (increasing `col` by 1).

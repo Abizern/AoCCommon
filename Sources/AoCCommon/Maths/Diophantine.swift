@@ -24,7 +24,7 @@ public func diophantineEEA(
   ay: Int,
   by: Int,
   cx: Int,
-  cy: Int
+  cy: Int,
 ) -> (m: Int, n: Int)? {
   let aPrime = ay * bx - by * ax
   let cPrime = cy * bx - by * cx

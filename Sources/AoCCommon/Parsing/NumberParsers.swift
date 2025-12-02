@@ -26,7 +26,7 @@ public struct NumberPair<V>: Parser {
   ///                By default this is the identity and `V == (Int, Int)`.
   public init(
     separator: String = ",",
-    transform: @escaping ((Int, Int)) -> V = { $0 }
+    transform: @escaping ((Int, Int)) -> V = { $0 },
   ) {
     self.separator = separator
     self.transform = transform
@@ -37,6 +37,44 @@ public struct NumberPair<V>: Parser {
       Digits()
       separator
       Digits()
+    }
+  }
+}
+
+/// A Parser for a range of numbers separated by "-"
+///
+/// For example
+/// ```swift
+/// "12-15" // (12, 15)
+/// ```
+public struct NumberRange: Parser {
+  public init() {}
+
+  public var body: some Parser<Substring, (Int, Int)> {
+    Parse {
+      NumberPair(separator: "-")
+    }
+  }
+}
+
+/// A parser for a single line of ranges separated by a comma
+///
+/// for example
+/// ```swift
+/// "1-2,3-4"
+///
+/// // [(1,2), (3,4)]
+/// ```
+public struct NumberRanges: Parser {
+  public init() {}
+
+  public var body: some Parser<Substring, [(Int, Int)]> {
+    Many {
+      NumberRange()
+    } separator: {
+      ","
+    } terminator: {
+      End()
     }
   }
 }
@@ -71,7 +109,7 @@ public struct NumberPairs<V>: Parser {
   ///                By default this is the identity and `V == (Int, Int)`.
   public init(
     separator: String = ",",
-    transform: @escaping ((Int, Int)) -> V = { $0 }
+    transform: @escaping ((Int, Int)) -> V = { $0 },
   ) {
     self.separator = separator
     self.transform = transform
@@ -115,7 +153,7 @@ public struct NumberLine<V>: Parser {
   ///                By default this is the identity and `V == Int`.
   public init(
     separator: String = ",",
-    transform: @escaping (Int) -> V = { $0 }
+    transform: @escaping (Int) -> V = { $0 },
   ) {
     self.separator = separator
     self.transform = transform
@@ -168,7 +206,7 @@ public struct NumberLines<V>: Parser {
   ///                By default this is the identity.
   public init(
     separator: String = ",",
-    transform: @escaping (Int) -> V = { $0 }
+    transform: @escaping (Int) -> V = { $0 },
   ) {
     self.separator = separator
     self.transform = transform
