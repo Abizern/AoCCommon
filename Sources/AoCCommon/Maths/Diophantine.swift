@@ -18,6 +18,7 @@ import Foundation
 ///   - cx: Right-hand side of the first equation.
 ///   - cy: Right-hand side of the second equation.
 /// - Returns: A tuple `(m, n)` if an integer solution exists; otherwise `nil`.
+@inlinable
 public func diophantineEEA(
   ax: Int,
   bx: Int,

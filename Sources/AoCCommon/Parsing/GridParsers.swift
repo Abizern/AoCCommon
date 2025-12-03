@@ -22,8 +22,10 @@ import Parsing
 ///  [7, 8, 9]]
 /// ```
 public struct SingleDigitGridParser: Parser {
+  @inlinable
   public init() {}
 
+  @inlinable
   public var body: some Parser<Substring, Grid<Int>> {
     Many {
       SingleDigitLineParser()

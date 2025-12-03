@@ -11,6 +11,7 @@ import Foundation
 ///   - n: The modulus. Assumed to be non-zero.
 /// - Returns: The unique integer `r` such that `0 <= r < |n|` and
 ///   `r ≡ x (mod n)`.
+@inlinable
 public func mod(_ x: Int, _ n: Int) -> Int {
   ((x % n) + n) % n
 }

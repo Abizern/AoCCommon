@@ -32,6 +32,7 @@ public struct Cell: Hashable, CustomStringConvertible, Sendable {
   /// - Parameters:
   ///   - row: The row index (0-based), increasing downward.
   ///   - col: The column index (0-based), increasing to the right.
+  @inlinable
   public init(_ row: Int, _ col: Int) {
     self.row = row
     self.col = col
@@ -40,6 +41,7 @@ public struct Cell: Hashable, CustomStringConvertible, Sendable {
   /// Creates a cell from a `(row, col)` tuple.
   ///
   /// - Parameter pair: A tuple where `pair.0` is the row and `pair.1` is the column.
+  @inlinable
   public init(_ pair: (Int, Int)) {
     row = pair.0
     col = pair.1
@@ -65,6 +67,7 @@ public extension Cell {
   ///
   /// - Parameter offset: The directional offset to apply.
   /// - Returns: A new `Cell` translated by the given offset.
+  @inlinable
   func offset(by offset: Offset) -> Cell {
     switch offset {
     case .up: Cell(row - 1, col)
@@ -85,6 +88,7 @@ public extension Cell {
   ///
   /// - Parameter offsets: The offsets to apply to `self`.
   /// - Returns: A `Set` containing the distinct cells reached by the offsets.
+  @inlinable
   func offsets(by offsets: [Offset]) -> Set<Cell> {
     Set(offsets.map { self.offset(by: $0) })
   }
@@ -95,6 +99,7 @@ public extension Cell {
   /// without any bounds checking.
   ///
   /// - Returns: A set of orthogonal neighbours of this cell.
+  @inlinable
   func orthogonalNeighbours() -> Set<Cell> {
     offsets(by: Offset.orthogonal)
   }
@@ -106,6 +111,7 @@ public extension Cell {
   /// bounds checking.
   ///
   /// - Returns: A set of diagonal neighbours of this cell.
+  @inlinable
   func diagonalNeighbours() -> Set<Cell> {
     offsets(by: Offset.diagonal)
   }
@@ -116,6 +122,7 @@ public extension Cell {
   /// but implemented in a single pass over all possible offsets.
   ///
   /// - Returns: A set of all neighbouring cells around this cell.
+  @inlinable
   func neighbours() -> Set<Cell> {
     offsets(by: Offset.allCases)
   }
@@ -134,6 +141,7 @@ public extension Cell {
   ///
   /// - Parameter to: The other cell to measure against.
   /// - Returns: The Manhattan distance between `self` and `to`.
+  @inlinable
   func manhattanDistance(_ to: Cell) -> Int {
     abs(row - to.row) + abs(col - to.col)
   }

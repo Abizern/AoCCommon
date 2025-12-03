@@ -5,6 +5,10 @@ import Parsing
 /// This parser splits the input on newline characters (`"\n"`) and returns
 /// each line as a `String`. The entire input must be consumed.
 public struct LinesParser: Parser {
+  @inlinable
+  public init() {}
+
+  @inlinable
   public var body: some Parser<Substring, [String]> {
     Many {
       Prefix { $0 != "\n" }.map(String.init)
@@ -18,6 +22,10 @@ public struct LinesParser: Parser {
 
 /// Parses a single line of characters up to, but not including, a newline.
 public struct CharacterLineParser: Parser {
+  @inlinable
+  public init() {}
+
+  @inlinable
   public var body: some Parser<Substring, [Character]> {
     Parse(Array.init) {
       Prefix { $0 != "\n" }
@@ -30,6 +38,10 @@ public struct CharacterLineParser: Parser {
 /// Each inner array corresponds to one line and contains the characters in
 /// that line.
 public struct CharacterLinesParser: Parser {
+  @inlinable
+  public init() {}
+
+  @inlinable
   public var body: some Parser<Substring, [[Character]]> {
     Many {
       CharacterLineParser()

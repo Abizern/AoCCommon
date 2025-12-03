@@ -20,6 +20,7 @@ public extension String {
   /// - Returns: An array of `String`, one for each line in the input.
   /// - Throws: A parsing error if the input does not represent a sequence of
   ///   newline-separated lines.
+  @inlinable
   func lines() throws -> [String] {
     try LinesParser().parse(self)
   }
@@ -48,6 +49,7 @@ public extension String {
   ///   one line.
   /// - Throws: A parsing error if the input is not a sequence of newline-
   ///   separated character lines.
+  @inlinable
   func characterLines() throws -> [[Character]] {
     try CharacterLinesParser().parse(self)
   }
@@ -62,6 +64,7 @@ public extension String {
   /// ```swift
   /// try "1-2,10-16".numberRanges() // -> [(1, 2), (10, 16)]
   /// ```
+  @inlinable
   func numberRanges() throws -> [(Int, Int)] {
     try NumberRanges().parse(self)
   }

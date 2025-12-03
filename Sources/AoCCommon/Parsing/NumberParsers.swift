@@ -13,9 +13,11 @@ import Parsing
 /// closure.
 public struct NumberPair<V>: Parser {
   /// The separator expected between the two numbers.
+  @usableFromInline
   let separator: String
 
   /// The transform, if any, to apply to the parsed pair `(lhs, rhs)`.
+  @usableFromInline
   let transform: ((Int, Int)) -> V
 
   /// Creates a parser for two integers separated by `separator`.
@@ -24,6 +26,7 @@ public struct NumberPair<V>: Parser {
   ///   - separator: The literal string separating the two numbers. Defaults to `","`.
   ///   - transform: A closure that converts the parsed `(Int, Int)` into `V`.
   ///                By default this is the identity and `V == (Int, Int)`.
+  @inlinable
   public init(
     separator: String = ",",
     transform: @escaping ((Int, Int)) -> V = { $0 },
@@ -32,6 +35,7 @@ public struct NumberPair<V>: Parser {
     self.transform = transform
   }
 
+  @inlinable
   public var body: some Parser<Substring, V> {
     Parse(transform) {
       Digits()
@@ -48,8 +52,10 @@ public struct NumberPair<V>: Parser {
 /// "12-15" // (12, 15)
 /// ```
 public struct NumberRange: Parser {
+  @inlinable
   public init() {}
 
+  @inlinable
   public var body: some Parser<Substring, (Int, Int)> {
     Parse {
       NumberPair(separator: "-")
@@ -66,8 +72,10 @@ public struct NumberRange: Parser {
 /// // [(1,2), (3,4)]
 /// ```
 public struct NumberRanges: Parser {
+  @inlinable
   public init() {}
 
+  @inlinable
   public var body: some Parser<Substring, [(Int, Int)]> {
     Many {
       NumberRange()
@@ -95,9 +103,11 @@ public struct NumberRanges: Parser {
 /// into an array of `V` values, one for each line.
 public struct NumberPairs<V>: Parser {
   /// The separator expected between the numbers on each line.
+  @usableFromInline
   let separator: String
 
   /// The transform, if any, to apply to each parsed pair `(lhs, rhs)`.
+  @usableFromInline
   let transform: ((Int, Int)) -> V
 
   /// Creates a parser for lines of number pairs separated by newlines.
@@ -107,6 +117,7 @@ public struct NumberPairs<V>: Parser {
   ///                Defaults to `","`.
   ///   - transform: A closure that converts each parsed `(Int, Int)` into `V`.
   ///                By default this is the identity and `V == (Int, Int)`.
+  @inlinable
   public init(
     separator: String = ",",
     transform: @escaping ((Int, Int)) -> V = { $0 },
@@ -115,6 +126,7 @@ public struct NumberPairs<V>: Parser {
     self.transform = transform
   }
 
+  @inlinable
   public var body: some Parser<Substring, [V]> {
     Many {
       NumberPair(separator: separator, transform: transform)
@@ -139,9 +151,11 @@ public struct NumberPairs<V>: Parser {
 /// is parsed as `[1, 2, 3, 4]` (or `[V]` after transformation).
 public struct NumberLine<V>: Parser {
   /// The separator expected between the numbers on this line.
+  @usableFromInline
   let separator: String
 
   /// The transform applied to each parsed integer.
+  @usableFromInline
   let transform: (Int) -> V
 
   /// Creates a parser for a single line of separated integers.
@@ -151,6 +165,7 @@ public struct NumberLine<V>: Parser {
   ///                Defaults to `","`.
   ///   - transform: A closure that converts each parsed `Int` into `V`.
   ///                By default this is the identity and `V == Int`.
+  @inlinable
   public init(
     separator: String = ",",
     transform: @escaping (Int) -> V = { $0 },
@@ -159,6 +174,7 @@ public struct NumberLine<V>: Parser {
     self.transform = transform
   }
 
+  @inlinable
   public var body: some Parser<Substring, [V]> {
     Parse {
       Many {
@@ -192,9 +208,11 @@ public struct NumberLine<V>: Parser {
 /// each row is comma- (or otherwise) separated.
 public struct NumberLines<V>: Parser {
   /// The separator expected between numbers on each line.
+  @usableFromInline
   let separator: String
 
   /// The transform applied to each parsed integer.
+  @usableFromInline
   let transform: (Int) -> V
 
   /// Creates a parser for multiple lines of separated integers.
@@ -204,6 +222,7 @@ public struct NumberLines<V>: Parser {
   ///                Defaults to `","`.
   ///   - transform: A closure that converts each parsed `Int` into `V`.
   ///                By default this is the identity.
+  @inlinable
   public init(
     separator: String = ",",
     transform: @escaping (Int) -> V = { $0 },
@@ -212,6 +231,7 @@ public struct NumberLines<V>: Parser {
     self.transform = transform
   }
 
+  @inlinable
   public var body: some Parser<Substring, [[V]]> {
     Many {
       NumberLine(separator: separator, transform: transform)
@@ -236,6 +256,7 @@ public struct NumberLines<V>: Parser {
 /// is parsed as `[1, 2, 3, 4, 5]` (or `[V]` after transformation).
 public struct SingleDigitLineParser<V>: Parser {
   /// The transform applied to each parsed digit.
+  @usableFromInline
   let transform: (Int) -> V
 
   /// Creates a parser for a single line of contiguous digits.
@@ -243,10 +264,12 @@ public struct SingleDigitLineParser<V>: Parser {
   /// - Parameter transform: A closure that converts each parsed digit `Int`
   ///                        into `V`. By default this is the identity and
   ///                        `V == Int`.
+  @inlinable
   public init(transform: @escaping (Int) -> V = { $0 }) {
     self.transform = transform
   }
 
+  @inlinable
   public var body: some Parser<Substring, [V]> {
     Many {
       Digits(1).map(transform)
@@ -276,6 +299,7 @@ public struct SingleDigitLineParser<V>: Parser {
 /// ```
 public struct SingleDigitLinesParser<V>: Parser {
   /// The transform applied to each parsed digit.
+  @usableFromInline
   let transform: (Int) -> V
 
   /// Creates a parser for multiple lines of contiguous digits.
@@ -283,10 +307,12 @@ public struct SingleDigitLinesParser<V>: Parser {
   /// - Parameter transform: A closure that converts each parsed digit `Int`
   ///                        into `V`. By default this is the identity and
   ///                        `V == Int`.
+  @inlinable
   public init(transform: @escaping (Int) -> V = { $0 }) {
     self.transform = transform
   }
 
+  @inlinable
   public var body: some Parser<Substring, [[V]]> {
     Many {
       SingleDigitLineParser(transform: transform)

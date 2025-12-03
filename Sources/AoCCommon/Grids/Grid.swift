@@ -16,6 +16,7 @@ public struct Grid<Element: Comparable>: Sendable where Element: Sendable {
   ///
   /// Each inner array represents a row. All rows are guaranteed to have the
   /// same length, enforced by the initializer.
+  @usableFromInline
   let storage: [[Element]]
 
   /// The width of the grid, i.e. the number of columns.
@@ -32,6 +33,7 @@ public struct Grid<Element: Comparable>: Sendable where Element: Sendable {
   /// - Precondition: `rows` contains at least one row.
   /// - Precondition: The first row contains at least one element.
   /// - Precondition: All rows have the same length.
+  @inlinable
   public init(rows: [[Element]]) {
     guard let firstRow = rows.first else {
       preconditionFailure("A grid must have at least one row!")
@@ -60,6 +62,7 @@ public extension Grid {
   ///
   /// - Parameter row: The row index to check.
   /// - Returns: `true` if `0 <= row < height`, otherwise `false`.
+  @inlinable
   func isValidRow(_ row: Int) -> Bool {
     row >= 0 && row < height
   }
@@ -68,6 +71,7 @@ public extension Grid {
   ///
   /// - Parameter column: The column index to check.
   /// - Returns: `true` if `0 <= column < width`, otherwise `false`.
+  @inlinable
   func isValidColumn(_ column: Int) -> Bool {
     column >= 0 && column < width
   }
@@ -78,6 +82,7 @@ public extension Grid {
   ///   - row: The row index.
   ///   - col: The column index.
   /// - Returns: `true` if both indexes are valid, otherwise `false`.
+  @inlinable
   func isValid(_ row: Int, _ col: Int) -> Bool {
     isValidRow(row) && isValidColumn(col)
   }
@@ -86,6 +91,7 @@ public extension Grid {
   ///
   /// - Parameter cell: The `Cell` whose coordinates should be checked.
   /// - Returns: `true` if the cell's row and column indexes are valid.
+  @inlinable
   func isValid(_ cell: Cell) -> Bool {
     isValid(cell.row, cell.col)
   }
@@ -94,6 +100,7 @@ public extension Grid {
   ///
   /// - Parameter cell: A `Cell` with the target position.
   /// - Returns: The element if the cell is within bounds, otherwise `nil`.
+  @inlinable
   func element(_ cell: Cell) -> Element? {
     guard isValid(cell) else {
       return nil
@@ -108,6 +115,7 @@ public extension Grid {
   ///
   /// - Parameter cell: The cell whose neighbours are requested.
   /// - Returns: A set of neighbouring cells within the grid.
+  @inlinable
   func orthogonalNeighbours(_ cell: Cell) -> Set<Cell> {
     cell.orthogonalNeighbours().filter {
       isValid($0)
@@ -121,6 +129,7 @@ public extension Grid {
   ///
   /// - Parameter cell: The cell whose neighbours are requested.
   /// - Returns: A set of diagonal neighbours within the grid.
+  @inlinable
   func diagonalNeighbours(_ cell: Cell) -> Set<Cell> {
     cell.diagonalNeighbours().filter {
       isValid($0)
@@ -134,6 +143,7 @@ public extension Grid {
   ///
   /// - Parameter cell: The cell whose neighbours are requested.
   /// - Returns: A set of all neighbouring cells within the grid.
+  @inlinable
   func neighbours(_ cell: Cell) -> Set<Cell> {
     cell.neighbours().filter {
       isValid($0)
@@ -170,6 +180,7 @@ public extension Grid {
   /// - Parameter predicate: A closure that takes an element and returns `true`
   ///   if the corresponding cell should be included.
   /// - Returns: A set of cells where the value at that cell satisfies the predicate.
+  @inlinable
   func filter(_ predicate: (Element) throws -> Bool) rethrows -> Set<Cell> {
     var accumulator: Set<Cell> = []
     for row in 0 ..< height {
@@ -189,6 +200,7 @@ public extension Grid {
   ///
   /// - Parameter row: The row index.
   /// - Returns: The row as `[Element]` if the index is valid, otherwise `nil`.
+  @inlinable
   subscript(_ row: Int) -> [Element]? {
     guard isValidRow(row) else {
       return nil
@@ -202,6 +214,7 @@ public extension Grid {
   ///   - row: The row index.
   ///   - col: The column index.
   /// - Returns: The element at `(row, col)` if the indexes are valid, otherwise `nil`.
+  @inlinable
   subscript(_ row: Int, _ col: Int) -> Element? {
     guard isValid(row, col) else {
       return nil
@@ -213,6 +226,7 @@ public extension Grid {
   ///
   /// - Parameter cell: The cell whose value is requested.
   /// - Returns: The element at `cell` if it is within bounds, otherwise `nil`.
+  @inlinable
   subscript(_ cell: Cell) -> Element? {
     guard isValid(cell.row, cell.col) else {
       return nil
@@ -229,6 +243,7 @@ public extension Grid {
   ///
   /// - Parameter element: The value to search for.
   /// - Returns: The first `Cell` containing `element`, or `nil` if not found.
+  @inlinable
   func firstCell(for element: Element) -> Cell? {
     for (r, row) in rows.enumerated() {
       for (c, value) in row.enumerated() {
