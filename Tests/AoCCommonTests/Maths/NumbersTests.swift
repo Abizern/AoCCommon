@@ -25,3 +25,32 @@ struct ExtendedEuclid {
     #expect(abs(a * x + b * y) == gcd)
   }
 }
+
+@Suite("Bubble Digits")
+struct BubbleDigits {
+  @Test("Bubble small number", arguments: [
+    ([9, 8, 7, 6, 5, 4, 3, 2, 1, 1, 1, 1, 1, 1, 1], 2, [9, 8]),
+    ([8, 1, 8, 1, 8, 1, 9, 1, 1, 1, 1, 2, 1, 1, 1], 2, [9, 2]),
+    ([9, 8, 7, 6, 5, 4, 3, 2, 1, 1, 1, 1, 1, 1, 1], 12, [9, 8, 7, 6, 5, 4, 3, 2, 1, 1, 1, 1]),
+    ([8, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 9], 12, [8, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 9]),
+    ([2, 3, 4, 2, 3, 4, 2, 3, 4, 2, 3, 4, 2, 7, 8], 12, [4, 3, 4, 2, 3, 4, 2, 3, 4, 2, 7, 8]),
+    ([8, 1, 8, 1, 8, 1, 9, 1, 1, 1, 1, 2, 1, 1, 1], 12, [8, 8, 8, 9, 1, 1, 1, 1, 2, 1, 1, 1]),
+  ])
+  func bubbleDigitsTests(input: ([Int], Int, [Int])) {
+    let (inputList, length, expected) = input
+    #expect(bubbleDigits(inputList, length: length) == expected)
+  }
+}
+
+@Suite("Extensions on Array")
+struct ArrayExtensions {
+  @Test("Array.toInt()", arguments: [
+    ([], 0),
+    ([0], 0),
+    ([1, 2, 3], 123),
+  ])
+  func testToInt(input: ([Int], Int)) async throws {
+    let (list, expected) = input
+    #expect(list.toInt() == expected)
+  }
+}
