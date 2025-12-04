@@ -5,16 +5,7 @@ import Foundation
 /// A `Cell` stores its location using integer grid coordinates:
 /// - `row`: The row index (0-based), increasing as you move downward.
 /// - `col`: The column index (0-based), increasing as you move to the right.
-///
-/// The type conforms to:
-/// - `Hashable` for use as dictionary keys and set members
-/// - `CustomStringConvertible` for readable debugging output
-/// - `Sendable` for safe use across concurrency domains
-///
-/// Typical uses include pathfinding (e.g., Manhattan distance), board games,
-/// and matrix addressing. In Advent of Code puzzles, `Cell` often represents
-/// a coordinate in a 2D map or heightmap.
-public struct Cell: Hashable, CustomStringConvertible, Sendable {
+public struct Cell: Hashable, Sendable {
   /// The row index (0-based). Increases as you move downward.
   public let row: Int
 
@@ -52,13 +43,9 @@ public struct Cell: Hashable, CustomStringConvertible, Sendable {
   /// Useful as a starting point for grid-based algorithms, bounds checks, and
   /// default values.
   public static let origin = Cell(0, 0)
-
-  /// A human-readable representation in the form `"(row, col)"`.
-  public var description: String {
-    "(\(row), \(col))"
-  }
 }
 
+// Offsets
 public extension Cell {
   /// Returns a new cell by applying the given offset to this cell.
   ///
@@ -177,5 +164,12 @@ public extension Cell {
 
     /// The four diagonal directions: top-left, top-right, bottom-left, bottom-right.
     public static var diagonal: [Offset] { [.topLeft, .topRight, .bottomLeft, .bottomRight] }
+  }
+}
+
+extension Cell: CustomStringConvertible {
+  /// A human-readable representation in the form `"(row, col)"`.
+  public var description: String {
+    "(\(row), \(col))"
   }
 }
