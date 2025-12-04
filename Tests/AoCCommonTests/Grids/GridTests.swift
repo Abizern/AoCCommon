@@ -108,7 +108,7 @@ struct GridFilterTests {
 
   @Test("Filter even numbers returns correct cells")
   func filterEvens() {
-    let cells = grid.filter { $0 % 2 == 0 }
+    let cells = grid.cells { $0 % 2 == 0 }
     let expected: Set<Cell> = [Cell(0, 1), Cell(1, 0), Cell(1, 2), Cell(2, 1)]
     #expect(cells == expected)
     #expect(cells.count == expected.count)
@@ -116,7 +116,7 @@ struct GridFilterTests {
 
   @Test("Filter with no matches returns empty")
   func filterNoMatches() {
-    let cells = grid.filter { _ in false }
+    let cells = grid.cells { _ in false }
     #expect(cells.isEmpty)
   }
 }

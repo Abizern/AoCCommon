@@ -178,13 +178,13 @@ public extension Grid {
 }
 
 public extension Grid {
-  /// Returns a set of `Cell` whose values satisfy the given predicate.
+  /// Returns a set of `Cell`s whose values satisfy the given predicate.
   ///
   /// - Parameter predicate: A closure that takes an element and returns `true`
   ///   if the corresponding cell should be included.
   /// - Returns: A set of cells where the value at that cell satisfies the predicate.
   @inlinable
-  func filter(_ predicate: (Element) throws -> Bool) rethrows -> Set<Cell> {
+  func cells(where predicate: (Element) throws -> Bool) rethrows -> Set<Cell> {
     var accumulator: Set<Cell> = []
     for row in 0 ..< height {
       for col in 0 ..< width {
