@@ -123,7 +123,7 @@ public extension Grid {
   }
 }
 
-// Cell Accessors
+// Neighbours
 public extension Grid {
   /// Returns the orthogonally adjacent neighbours of a cell that lie within the grid.
   ///
@@ -167,6 +167,45 @@ public extension Grid {
     }
   }
 
+  /// Returns the orthogonally adjacent neighbours of an Index that lie within the grid.
+  ///
+  /// The set includes any of the four directions (up, down, left, right) that fall
+  /// inside the grid's bounds.
+  ///
+  /// - Parameter index: The index whose neighbours are requested.
+  /// - Returns: A set of neighbouring indexes within the grid.
+  @inlinable
+  func orthogonalNeighbours(_ index: Index) -> Set<Index> {
+    Set(orthogonalNeighbours(cell(for: index)).map(index(for:)))
+  }
+
+  /// Returns the diagonally adjacent neighbours of an Index that lie within the grid.
+  ///
+  /// The set includes any of the four diagonals (top-left, top-right, bottom-left,
+  /// bottom-right) that fall inside the grid's bounds.
+  ///
+  /// - Parameter index: The index whose neighbours are requested.
+  /// - Returns: A set of diagonal neighbours within the grid.
+  @inlinable
+  func diagonalNeighbours(_ index: Index) -> Set<Index> {
+    Set(diagonalNeighbours(cell(for: index)).map(index(for:)))
+  }
+
+  /// Returns all neighbours of an Index that lie within the grid.
+  ///
+  /// This includes both orthogonal and diagonal neighbours, filtered to only those
+  /// positions that are in bounds.
+  ///
+  /// - Parameter index: The Index whose neighbours are requested.
+  /// - Returns: A set of all neighbouring indexes within the grid.
+  @inlinable
+  func neighbours(_ index: Index) -> Set<Index> {
+    Set(neighbours(cell(for: index)).map(index(for:)))
+  }
+}
+
+// Filtering
+public extension Grid {
   /// Returns a set of `Cell`s whose values satisfy the given predicate.
   ///
   /// - Parameter predicate: A closure that takes an element and returns `true`
@@ -315,13 +354,22 @@ extension Grid: RandomAccessCollection {
   /// Converts a Cell to a flat Index into the grid
   /// - Parameter cell: The `Cell` under consideration
   /// - Returns: The `Index` of the cell
+  @inlinable
   public func index(for cell: Cell) -> Index {
     precondition(isValid(cell))
 
     return cell.row * width + cell.col
   }
+
+  @inlinable
+  public func cell(for index: Index) -> Cell {
+    let row = index / width
+    let col = index % width
+    return Cell(row, col)
+  }
 }
 
+// Mapping
 public extension Grid {
   /// Returns a new `Grid` by applying `transform` to every element,
   /// preserving the original grid's shape.
@@ -349,5 +397,24 @@ public extension Grid {
     }
 
     return Grid<NewElement>(rows: newRows)
+  }
+}
+
+/// Iteration
+public extension Grid {
+  /// Returns a lazy sequence of grids obtained by repeatedly applying
+  /// a *shape-preserving* element-wise transform to this grid.
+  ///
+  /// The first element of the sequence is `self`. Each subsequent grid is
+  /// produced by applying `mapGrid(transform)` to the previous one.
+  ///
+  /// This sequence is potentially unbounded; combine it with `prefix(_:)`
+  /// or `prefix(while:)` to limit it.
+  func iterateMap(
+    _ transform: @escaping (Element) -> Element,
+  ) -> UnfoldFirstSequence<Grid> {
+    sequence(first: self) { current in
+      current.mapGrid(transform)
+    }
   }
 }

@@ -66,8 +66,23 @@ struct GridAccessorsTests {
     #expect(grid.element(Cell(0, 2)) == nil)
   }
 
-  @Test("Neigbours of a Cell")
-  func neigboursOfACell() {
+  @Test("Find element")
+  func findElement() {
+    #expect(grid.firstCell(for: 2) == Cell(0, 1))
+    #expect(grid.firstCell(for: 10) == nil)
+  }
+}
+
+@Suite("Neighbours within a Grid")
+struct GridNeighbours {
+  let grid = Grid(rows: [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+  ])
+
+  @Test("Cell based neighbours")
+  func cellBasedNeighbours() {
     let cell = Cell(1, 1)
     let allNeighbours = cell.neighbours()
     let orthogonalNeighbours = cell.orthogonalNeighbours()
@@ -77,10 +92,44 @@ struct GridAccessorsTests {
     #expect(grid.diagonalNeighbours(cell) == diagonalNeighgbours)
   }
 
-  @Test("Find element")
-  func findElement() {
-    #expect(grid.firstCell(for: 2) == Cell(0, 1))
-    #expect(grid.firstCell(for: 10) == nil)
+  @Test("Cell bassed neighbours in a corner")
+  func cellBasedNeighboursCorner() {
+    let cell = Cell(0, 0)
+    #expect(grid.neighbours(cell).count == 3)
+    #expect(grid.orthogonalNeighbours(cell).count == 2)
+    #expect(grid.diagonalNeighbours(cell).count == 1)
+  }
+
+  @Test("Cell based neighbours on a side")
+  func cellBasedNeighboursSide() {
+    let cell = Cell(1, 0)
+    #expect(grid.neighbours(cell).count == 5)
+    #expect(grid.orthogonalNeighbours(cell).count == 3)
+    #expect(grid.diagonalNeighbours(cell).count == 2)
+  }
+
+  @Test("Index based neighbours")
+  func indexBasedNeighbours() {
+    let index = 4
+    #expect(grid.neighbours(index).count == 8)
+    #expect(grid.orthogonalNeighbours(index).count == 4)
+    #expect(grid.diagonalNeighbours(index).count == 4)
+  }
+
+  @Test("Index based neighbours in a corner")
+  func indexBasedNeighboursCorner() {
+    let index = 0
+    #expect(grid.neighbours(index).count == 3)
+    #expect(grid.orthogonalNeighbours(index).count == 2)
+    #expect(grid.diagonalNeighbours(index).count == 1)
+  }
+
+  @Test("Index based neighbours on a side")
+  func indexBasedNeighboursSide() {
+    let index = 3
+    #expect(grid.neighbours(index).count == 5)
+    #expect(grid.orthogonalNeighbours(index).count == 3)
+    #expect(grid.diagonalNeighbours(index).count == 2)
   }
 }
 
@@ -322,5 +371,34 @@ struct GridMapGridTests {
     #expect(stringGrid.width == 1)
     #expect(stringGrid.height == 1)
     #expect(stringGrid.row(0) == ["v42"])
+  }
+}
+
+@Suite("Grid iterateMap")
+struct GridIterateMapTests {
+  let grid = Grid(rows: [
+    [1, 2],
+    [3, 4],
+  ])
+
+  @Test("iterateMap repeatedly applies the element transform")
+  func repeatedTransform() {
+    let sequence = grid.iterateMap { $0 + 1 }
+
+    let states = Array(sequence.prefix(3))
+
+    #expect(states.count == 3)
+
+    #expect(states[0] == grid)
+
+    #expect(states[1] == Grid(rows: [
+      [2, 3],
+      [4, 5],
+    ]))
+
+    #expect(states[2] == Grid(rows: [
+      [3, 4],
+      [5, 6],
+    ]))
   }
 }
