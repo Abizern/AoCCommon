@@ -251,18 +251,6 @@ public extension Grid {
 
 // Subscripts
 public extension Grid {
-  /// Returns the row at the given index, if it exists.
-  ///
-  /// - Parameter row: The row index.
-  /// - Returns: The row as `[Element]` if the index is valid, otherwise `nil`.
-//  @inlinable
-//  subscript(_ row: Int) -> [Element]? {
-//    guard isValidRow(row) else {
-//      return nil
-//    }
-//    return storage[row]
-//  }
-
   /// Returns the element at a given row and column, if it exists.
   ///
   /// - Parameters:
