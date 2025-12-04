@@ -57,6 +57,8 @@ public struct Grid<Element: Comparable>: Sendable where Element: Sendable {
   }
 }
 
+extension Grid: Equatable {}
+
 // Validity
 public extension Grid {
   /// Returns `true` if the given row index is within the grid's bounds.
@@ -98,6 +100,7 @@ public extension Grid {
   }
 }
 
+// Element Accessors
 public extension Grid {
   /// Returns the element at the given cell, if it exists.
   ///
@@ -111,6 +114,17 @@ public extension Grid {
     return storage[cell.row][cell.col]
   }
 
+  @inlinable
+  func row(_ row: Int) -> [Element]? {
+    guard isValidRow(row) else {
+      return nil
+    }
+    return storage[row]
+  }
+}
+
+// Cell Accessors
+public extension Grid {
   /// Returns the orthogonally adjacent neighbours of a cell that lie within the grid.
   ///
   /// The set includes any of the four directions (up, down, left, right) that fall
@@ -152,32 +166,7 @@ public extension Grid {
       isValid($0)
     }
   }
-}
 
-// Lazy Sequences
-public extension Grid {
-  /// A lazy sequence of all rows in the grid.
-  ///
-  /// Each element of the sequence is a full row `[Element]`.
-  var rows: LazyMapSequence<Range<Int>, [Element]> {
-    (0 ..< height).lazy.map { row in
-      self[row]!
-    }
-  }
-
-  /// A lazy sequence of all columns in the grid.
-  ///
-  /// Each element of the sequence is a full column `[Element]`.
-  var cols: LazyMapSequence<Range<Int>, [Element]> {
-    (0 ..< width).lazy.map { col in
-      (0 ..< height).map { row in
-        storage[row][col]
-      }
-    }
-  }
-}
-
-public extension Grid {
   /// Returns a set of `Cell`s whose values satisfy the given predicate.
   ///
   /// - Parameter predicate: A closure that takes an element and returns `true`
@@ -198,19 +187,42 @@ public extension Grid {
   }
 }
 
+// Lazy Sequences
+public extension Grid {
+  /// A lazy sequence of all rows in the grid.
+  ///
+  /// Each element of the sequence is a full row `[Element]`.
+  var rows: LazyMapSequence<Range<Int>, [Element]> {
+    (0 ..< height).lazy.map { row in
+      self.storage[row]
+    }
+  }
+
+  /// A lazy sequence of all columns in the grid.
+  ///
+  /// Each element of the sequence is a full column `[Element]`.
+  var cols: LazyMapSequence<Range<Int>, [Element]> {
+    (0 ..< width).lazy.map { col in
+      (0 ..< height).map { row in
+        storage[row][col]
+      }
+    }
+  }
+}
+
 // Subscripts
 public extension Grid {
   /// Returns the row at the given index, if it exists.
   ///
   /// - Parameter row: The row index.
   /// - Returns: The row as `[Element]` if the index is valid, otherwise `nil`.
-  @inlinable
-  subscript(_ row: Int) -> [Element]? {
-    guard isValidRow(row) else {
-      return nil
-    }
-    return storage[row]
-  }
+//  @inlinable
+//  subscript(_ row: Int) -> [Element]? {
+//    guard isValidRow(row) else {
+//      return nil
+//    }
+//    return storage[row]
+//  }
 
   /// Returns the element at a given row and column, if it exists.
   ///
@@ -267,5 +279,75 @@ extension Grid: CustomStringConvertible where Element: CustomStringConvertible {
         .joined(separator: "")
     }
     .joined(separator: "\n")
+  }
+}
+
+extension Grid: RandomAccessCollection {
+  // 1D index into the flattened grid
+  public typealias Index = Int
+
+  public var startIndex: Index { 0 }
+  public var endIndex: Index { width * height }
+
+  public func index(after i: Index) -> Index {
+    i + 1
+  }
+
+  public func index(before i: Index) -> Index {
+    i - 1
+  }
+
+  public subscript(position: Index) -> Element {
+    precondition(position >= startIndex && position < endIndex, "Grid index out of range")
+
+    let (row, col) = coordinates(for: position)
+    return storage[row][col]
+  }
+
+  // Convert flat index -> (row, col)
+  @inline(__always)
+  private func coordinates(for index: Index) -> (row: Int, col: Int) {
+    let row = index / width
+    let col = index % width
+    return (row, col)
+  }
+
+  /// Converts a Cell to a flat Index into the grid
+  /// - Parameter cell: The `Cell` under consideration
+  /// - Returns: The `Index` of the cell
+  public func index(for cell: Cell) -> Index {
+    precondition(isValid(cell))
+
+    return cell.row * width + cell.col
+  }
+}
+
+public extension Grid {
+  /// Returns a new `Grid` by applying `transform` to every element,
+  /// preserving the original grid's shape.
+  ///
+  /// - Parameter transform: A closure that transforms each element.
+  /// - Returns: A `Grid<NewElement>` with the same dimensions.
+  @inlinable
+  func mapGrid<NewElement>(
+    _ transform: (Element) throws -> NewElement,
+  ) rethrows -> Grid<NewElement>
+    where NewElement: Comparable & Sendable
+  {
+    var newRows: [[NewElement]] = []
+    newRows.reserveCapacity(height)
+
+    for r in 0 ..< height {
+      var newRow: [NewElement] = []
+      newRow.reserveCapacity(width)
+
+      for c in 0 ..< width {
+        try newRow.append(transform(storage[r][c]))
+      }
+
+      newRows.append(newRow)
+    }
+
+    return Grid<NewElement>(rows: newRows)
   }
 }

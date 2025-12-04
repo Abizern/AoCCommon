@@ -13,7 +13,7 @@ struct GridParserTests {
     let grid = try SingleDigitGridParser().parse(input)
     #expect(grid.width == 3)
     #expect(grid.height == 2)
-    #expect(grid[0] == [1, 2, 3])
-    #expect(grid[1] == [4, 5, 6])
+    #expect(grid.row(0) == [1, 2, 3])
+    #expect(grid.row(1) == [4, 5, 6])
   }
 }
