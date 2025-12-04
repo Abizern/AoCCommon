@@ -120,3 +120,13 @@ struct GridFilterTests {
     #expect(cells.isEmpty)
   }
 }
+
+@Suite("Grid Description")
+struct GridDescription {
+  @Test("Debug string")
+  func debugString() {
+    let grid = Grid(rows: [[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    let expectation = "123\n456\n789"
+    #expect(grid.description == expectation)
+  }
+}

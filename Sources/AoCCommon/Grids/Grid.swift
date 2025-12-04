@@ -57,6 +57,7 @@ public struct Grid<Element: Comparable>: Sendable where Element: Sendable {
   }
 }
 
+// Validity
 public extension Grid {
   /// Returns `true` if the given row index is within the grid's bounds.
   ///
@@ -95,7 +96,9 @@ public extension Grid {
   func isValid(_ cell: Cell) -> Bool {
     isValid(cell.row, cell.col)
   }
+}
 
+public extension Grid {
   /// Returns the element at the given cell, if it exists.
   ///
   /// - Parameter cell: A `Cell` with the target position.
@@ -195,6 +198,7 @@ public extension Grid {
   }
 }
 
+// Subscripts
 public extension Grid {
   /// Returns the row at the given index, if it exists.
   ///
@@ -253,5 +257,15 @@ public extension Grid {
       }
     }
     return nil
+  }
+}
+
+extension Grid: CustomStringConvertible where Element: CustomStringConvertible {
+  public var description: String {
+    rows.map {
+      $0.map(\.description)
+        .joined(separator: "")
+    }
+    .joined(separator: "\n")
   }
 }
