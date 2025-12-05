@@ -28,7 +28,7 @@ import Foundation
 ///
 /// - Note: `T` must conform to `Equatable` so that stabilisation can be detected.
 @inlinable
-func iterateUntilStable<T: Equatable>(
+public func iterateUntilStable<T: Equatable>(
   _ start: T,
   maxIterations: Int = .max,
   step: (T) -> T,
