@@ -7,6 +7,7 @@ public extension Sequence<ClosedRange<Int>> {
   /// `3...5` and `6...10` stay separate.
   ///
   /// - Returns: A sorted list of merged non-overlapping ranges.
+  @inlinable
   func merged() -> [ClosedRange<Int>] {
     let sorted = sorted { $0.lowerBound < $1.lowerBound }
     guard var current = sorted.first else { return [] }
