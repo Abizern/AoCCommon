@@ -166,42 +166,6 @@ public extension Grid {
       isValid($0)
     }
   }
-
-  /// Returns the orthogonally adjacent neighbours of an Index that lie within the grid.
-  ///
-  /// The set includes any of the four directions (up, down, left, right) that fall
-  /// inside the grid's bounds.
-  ///
-  /// - Parameter index: The index whose neighbours are requested.
-  /// - Returns: A set of neighbouring indexes within the grid.
-  @inlinable
-  func orthogonalNeighbours(_ index: Index) -> Set<Index> {
-    Set(orthogonalNeighbours(cell(for: index)).map(index(for:)))
-  }
-
-  /// Returns the diagonally adjacent neighbours of an Index that lie within the grid.
-  ///
-  /// The set includes any of the four diagonals (top-left, top-right, bottom-left,
-  /// bottom-right) that fall inside the grid's bounds.
-  ///
-  /// - Parameter index: The index whose neighbours are requested.
-  /// - Returns: A set of diagonal neighbours within the grid.
-  @inlinable
-  func diagonalNeighbours(_ index: Index) -> Set<Index> {
-    Set(diagonalNeighbours(cell(for: index)).map(index(for:)))
-  }
-
-  /// Returns all neighbours of an Index that lie within the grid.
-  ///
-  /// This includes both orthogonal and diagonal neighbours, filtered to only those
-  /// positions that are in bounds.
-  ///
-  /// - Parameter index: The Index whose neighbours are requested.
-  /// - Returns: A set of all neighbouring indexes within the grid.
-  @inlinable
-  func neighbours(_ index: Index) -> Set<Index> {
-    Set(neighbours(cell(for: index)).map(index(for:)))
-  }
 }
 
 // Filtering
@@ -309,54 +273,6 @@ extension Grid: CustomStringConvertible where Element: CustomStringConvertible {
   }
 }
 
-extension Grid: RandomAccessCollection {
-  // 1D index into the flattened grid
-  public typealias Index = Int
-
-  public var startIndex: Index { 0 }
-  public var endIndex: Index { width * height }
-
-  public func index(after i: Index) -> Index {
-    i + 1
-  }
-
-  public func index(before i: Index) -> Index {
-    i - 1
-  }
-
-  public subscript(position: Index) -> Element {
-    precondition(position >= startIndex && position < endIndex, "Grid index out of range")
-
-    let (row, col) = coordinates(for: position)
-    return storage[row][col]
-  }
-
-  // Convert flat index -> (row, col)
-  @inline(__always)
-  private func coordinates(for index: Index) -> (row: Int, col: Int) {
-    let row = index / width
-    let col = index % width
-    return (row, col)
-  }
-
-  /// Converts a Cell to a flat Index into the grid
-  /// - Parameter cell: The `Cell` under consideration
-  /// - Returns: The `Index` of the cell
-  @inlinable
-  public func index(for cell: Cell) -> Index {
-    precondition(isValid(cell))
-
-    return cell.row * width + cell.col
-  }
-
-  @inlinable
-  public func cell(for index: Index) -> Cell {
-    let row = index / width
-    let col = index % width
-    return Cell(row, col)
-  }
-}
-
 // Mapping
 public extension Grid {
   /// Returns a new `Grid` by applying `transform` to every element,
@@ -398,6 +314,7 @@ public extension Grid {
   ///
   /// This sequence is potentially unbounded; combine it with `prefix(_:)`
   /// or `prefix(while:)` to limit it.
+  @inlinable
   func iterateMap(
     _ transform: @escaping (Element) -> Element,
   ) -> UnfoldFirstSequence<Grid> {
