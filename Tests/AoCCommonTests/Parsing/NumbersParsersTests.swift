@@ -167,4 +167,13 @@ struct NumberRangeParserTests {
     #expect(parsed[1] == (82, 99))
     #expect(parsed[2] == (1111, 536_854))
   }
+
+  @Test("Parse multiple number ranges on a line")
+  func multipleRangesOnALine() throws {
+    let str = "1-2\n3-4"
+    let parsed = try NumberRangeLines().parse(str)
+    #expect(parsed.count == 2)
+    #expect(parsed[0] == (1, 2))
+    #expect(parsed[1] == (3, 4))
+  }
 }

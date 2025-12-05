@@ -63,6 +63,31 @@ public struct NumberRange: Parser {
   }
 }
 
+/// A Parser for a list of number ranges, separated by "\n"
+///
+/// for Example
+/// ```swift
+/// """
+/// 1-2
+/// 3-4 // -> [(1, 2), (3, 4)]
+/// """
+/// ```
+public struct NumberRangeLines: Parser {
+  @inlinable
+  public init() {}
+
+  @inlinable
+  public var body: some Parser<Substring, [(Int, Int)]> {
+    Parse {
+      Many {
+        NumberRange()
+      } separator: {
+        "\n"
+      }
+    }
+  }
+}
+
 /// A parser for a single line of ranges separated by a comma
 ///
 /// for example
