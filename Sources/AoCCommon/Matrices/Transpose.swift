@@ -17,7 +17,8 @@ import Foundation
 ///
 /// - Parameter lines: the rows that make up the matrix
 /// - Returns: The transposed matrix
-func transpose<T>(_ lines: [[T]]) -> [[T]] {
+@inlinable
+public func transpose<T>(_ lines: [[T]]) -> [[T]] {
   guard let first = lines.first else { return [] }
   return (0 ..< first.count).map { col in
     lines.map { $0[col] }
