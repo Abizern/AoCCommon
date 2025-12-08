@@ -69,6 +69,8 @@ public struct Vector3D: Hashable {
   }
 }
 
+extension Vector3D: Sendable {}
+
 // MARK: - CustomStringConvertible
 
 extension Vector3D: CustomStringConvertible {
