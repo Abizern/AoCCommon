@@ -20,3 +20,13 @@ Include `AoCCommon` as a dependency for your target:
     .product(name: "AoCCommon", package: "AoCCommon"),
 ]),
 ```
+
+## Documentation
+
+To preview the DocC documentation locally, run:
+
+```sh
+./scripts/preview-documentation.sh
+```
+
+This builds and serves the documentation for the `AoCCommon` target so it can be viewed in a browser.
